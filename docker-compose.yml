@@ -1,0 +1,35 @@
+version: '3'
+services:
+
+  #PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: instagram-liker
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    volumes:
+      - ./:/var/www
+    working_dir: /var/www
+    depends_on:
+      - selenium
+    networks:
+      - instagram-liker-network
+
+  selenium:
+    image: 'selenium/standalone-chrome'
+    ports:
+    - 4444:4444
+    volumes:
+      - '/dev/shm:/dev/shm'
+    networks:
+      - instagram-liker-network
+
+#Docker Networks
+networks:
+  instagram-liker-network:
+    driver: bridge
