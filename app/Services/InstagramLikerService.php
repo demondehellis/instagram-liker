@@ -6,41 +6,15 @@ use App\Jobs\Browser\GetDriverBrowserJob;
 use App\Jobs\Browser\SetUpBrowserJob;
 use App\Jobs\Browser\TearDownBrowserJob;
 use App\Jobs\Instagram\AuthorizeInstagramJob;
+use App\Jobs\Instagram\GetTagGeneratorJob;
 use App\Jobs\Instagram\ScrollToNewPostsJob;
 use App\Jobs\Instagram\VisitTagPageJob;
-use Exception;
-use Facebook\WebDriver\Chrome\ChromeOptions;
-use Facebook\WebDriver\Remote\DesiredCapabilities;
-use Facebook\WebDriver\Remote\RemoteWebDriver;
-use Illuminate\Support\Facades\Log;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Concerns\ProvidesBrowser;
 
 class InstagramLikerService
 {
     use ProvidesBrowser;
-
-    public function getTags()
-    {
-        $tagsString = $_ENV['INSTAGRAM_TAGS'];
-        $tags = explode(',', $tagsString);
-        return $tags;
-    }
-
-    public function getTagGenerator()
-    {
-        $tags = $this->getTags();
-        while (true){
-            foreach ($tags as $tag){
-                yield $tag;
-            }
-        }
-    }
-
-    public function getTagUrl(string $tag)
-    {
-        return "https://www.instagram.com/explore/tags/$tag/";
-    }
 
     public function likePostsByTag(string $tag, $limit = null)
     {
@@ -94,7 +68,7 @@ class InstagramLikerService
     {
         SetUpBrowserJob::dispatchNow();
 
-        $tagGenerator = $this->getTagGenerator();
+        $tagGenerator = GetTagGeneratorJob::dispatchNow();
         foreach ($tagGenerator as $tag) {
             $this->likePostsByTag($tag, 3);
         }
