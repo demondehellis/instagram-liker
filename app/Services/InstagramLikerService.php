@@ -5,10 +5,14 @@ namespace App\Services;
 use App\Jobs\Browser\GetDriverBrowserJob;
 use App\Jobs\Browser\SetUpBrowserJob;
 use App\Jobs\Browser\TearDownBrowserJob;
-use App\Jobs\Instagram\AuthorizeInstagramJob;
-use App\Jobs\Instagram\GetTagGeneratorJob;
-use App\Jobs\Instagram\ScrollToNewPostsJob;
-use App\Jobs\Instagram\VisitTagPageJob;
+use App\Jobs\Instagram\Actions\AuthorizeInstagramAction;
+use App\Jobs\Instagram\Actions\ClickLikeButtonAction;
+use App\Jobs\Instagram\Actions\ForEachPostAction;
+use App\Jobs\Instagram\Actions\GetTagGeneratorAction;
+use App\Jobs\Instagram\Actions\OpenFirstPostAction;
+use App\Jobs\Instagram\Actions\ScrollToNewPostsAction;
+use App\Jobs\Instagram\Actions\VisitTagPageAction;
+use App\Jobs\Instagram\Actions\WaitSomeTimeAction;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Concerns\ProvidesBrowser;
 
@@ -20,47 +24,15 @@ class InstagramLikerService
     {
         $this->browse(function (Browser $browser) use ($tag, $limit) {
 
-            AuthorizeInstagramJob::dispatchNow($browser);
-            VisitTagPageJob::dispatchNow($browser, $tag);
-            ScrollToNewPostsJob::dispatchNow($browser);
+            AuthorizeInstagramAction::dispatchNow($browser);
+            VisitTagPageAction::dispatchNow($browser, $tag);
+            ScrollToNewPostsAction::dispatchNow($browser);
+            OpenFirstPostAction::dispatchNow($browser);
 
-            // todo: move to Jobs
-            info('Click first post...');
-            $browser->clickAtPoint(70,70);
-
-            $likesNumber = 0;
-            $isLikesLimitReached = false;
-            while (!$isLikesLimitReached){
-
-                info('Open new post ' . $browser->driver->getCurrentURL());
-                try {
-                    $browser->waitFor('[role="dialog"] article header', 30);
-                } catch (\Exception $exception){
-                    report($exception);
-                    continue;
-                }
-
-                info('Like post...');
-                $browser->script("
-                let like = document.querySelector('svg[aria-label=\"Like\"]');
-                var evt = new MouseEvent(\"click\", {
-                    view: window,
-                    bubbles: true,
-                    cancelable: true,
-                    clientX: 20,
-                });
-                like.dispatchEvent(evt);");
-
-                info('Make screenshot...');
-                $browser->screenshot('like');
-
-                $isLikesLimitReached = (!is_null($limit) && ++$likesNumber >= $limit);
-                if ($isLikesLimitReached == false){
-                    info('Next post...');
-                    $browser->script('window.dispatchEvent(new KeyboardEvent("keyup", { "keyCode": 39 }));');
-                    $browser->pause(rand(1000,10000));
-                }
-            }
+            ForEachPostAction::dispatchNow($browser, function (Browser $browser){
+                ClickLikeButtonAction::dispatchNow($browser);
+                WaitSomeTimeAction::dispatchNow($browser);
+            }, $limit);
         });
     }
 
@@ -68,7 +40,7 @@ class InstagramLikerService
     {
         SetUpBrowserJob::dispatchNow();
 
-        $tagGenerator = GetTagGeneratorJob::dispatchNow();
+        $tagGenerator = GetTagGeneratorAction::dispatchNow();
         foreach ($tagGenerator as $tag) {
             $this->likePostsByTag($tag, 3);
         }

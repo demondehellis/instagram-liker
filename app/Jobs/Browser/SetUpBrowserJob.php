@@ -2,28 +2,12 @@
 
 namespace App\Jobs\Browser;
 
+use App\Jobs\BrowserJob;
 use Exception;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use Laravel\Dusk\Browser;
 
-class SetUpBrowserJob implements ShouldQueue
+class SetUpBrowserJob extends BrowserJob
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
     /**
      * Execute the job.
      *

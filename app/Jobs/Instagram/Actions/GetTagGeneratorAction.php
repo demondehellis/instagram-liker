@@ -1,27 +1,12 @@
 <?php
 
-namespace App\Jobs\Instagram;
+namespace App\Jobs\Instagram\Actions;
 
+use App\Jobs\Instagram\InstagramAction;
 use Exception;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 
-class GetTagGeneratorJob implements ShouldQueue
+class GetTagGeneratorAction extends InstagramAction
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    
-    /**
-     * Create a new job instance.
-     *
-     * @param string $tag
-     */
-    public function __construct()
-    {
-    }
-
     /**
      * Execute the job.
      *

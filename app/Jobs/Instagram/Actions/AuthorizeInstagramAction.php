@@ -1,19 +1,13 @@
 <?php
 
-namespace App\Jobs\Instagram;
+namespace App\Jobs\Instagram\Actions;
 
+use App\Jobs\Instagram\InstagramAction;
 use Exception;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use Laravel\Dusk\Browser;
 
-class AuthorizeInstagramJob implements ShouldQueue
+class AuthorizeInstagramAction extends InstagramAction
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
     protected $browser;
 
     /**

@@ -1,17 +1,11 @@
 <?php
 
-namespace App\Jobs\Instagram\Scripts;
+namespace App\Jobs\Instagram;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use App\Jobs\InstagramJob;
 
-abstract class InstagramScript implements ShouldQueue
+abstract class InstagramScript extends InstagramJob
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
     protected array $params;
 
     /**

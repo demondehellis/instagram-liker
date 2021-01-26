@@ -2,39 +2,22 @@
 
 namespace App\Jobs\Browser;
 
+use App\Jobs\BrowserJob;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
-use Laravel\Dusk\Concerns\ProvidesBrowser;
 
-class GetDriverBrowserJob implements ShouldQueue
+class GetDriverBrowserJob extends BrowserJob
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ProvidesBrowser;
-
     public static $driver = null;
-
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
 
     /**
      * Execute the job.
      *
      * @return RemoteWebDriver
      */
-    public function handle()
+    public function handle(): ?RemoteWebDriver
     {
         return $this->driver();
     }

@@ -2,22 +2,12 @@
 
 namespace App\Jobs\Browser;
 
-use Exception;
-use Facebook\WebDriver\Chrome\ChromeOptions;
-use Facebook\WebDriver\Remote\DesiredCapabilities;
-use Facebook\WebDriver\Remote\RemoteWebDriver;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
-use Laravel\Dusk\Browser;
+use App\Jobs\BrowserJob;
 use Laravel\Dusk\Concerns\ProvidesBrowser;
 
-class TearDownBrowserJob implements ShouldQueue
+class TearDownBrowserJob extends BrowserJob
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ProvidesBrowser;
+    use ProvidesBrowser;
 
     /**
      * Create a new job instance.
