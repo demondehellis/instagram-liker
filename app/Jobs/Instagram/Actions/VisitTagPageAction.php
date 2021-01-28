@@ -35,12 +35,11 @@ class VisitTagPageAction extends InstagramAction
 
         info('Visit tag page: ' . $tagUrl);
         $this->browser->visit($tagUrl);
-
         $this->browser->screenshot('tag-page');
     }
 
 
-    public function getTagUrl(string $tag)
+    public function getTagUrl(string $tag): string
     {
         return "https://www.instagram.com/explore/tags/$tag/";
     }

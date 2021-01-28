@@ -30,7 +30,6 @@ class OpenNextPostAction extends InstagramAction
      */
     public function handle()
     {
-        info('Open next post...');
         $this->browser->script(SendKeyUpEventScript::dispatchNow([
             // Send 'right arrow' key code
             '$keyCode' => 39

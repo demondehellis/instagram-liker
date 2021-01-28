@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 class GetDriverBrowserJob extends BrowserJob
 {
-    public static $driver = null;
+    public static RemoteWebDriver $driver;
 
     /**
      * Execute the job.
@@ -21,12 +21,18 @@ class GetDriverBrowserJob extends BrowserJob
     {
         return $this->driver();
     }
-
+    
+    /**
+     * @return RemoteWebDriver
+     */
     protected function driver(): ?RemoteWebDriver
     {
         return self::$driver ?? self::initDriver();
     }
-
+    
+    /**
+     * @return RemoteWebDriver
+     */
     public static function initDriver(): ?RemoteWebDriver
     {
         info('Init driver');

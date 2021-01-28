@@ -2,6 +2,6 @@
 
 namespace App\Jobs;
 
-abstract class InstagramJob extends Job
+abstract class InstagramJob extends SyncJob
 {
 }

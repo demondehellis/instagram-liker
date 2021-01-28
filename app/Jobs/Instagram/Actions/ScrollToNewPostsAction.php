@@ -31,13 +31,10 @@ class ScrollToNewPostsAction extends InstagramAction
      */
     public function handle()
     {
-        info('Scroll to new posts...');
-
         $script = ScrollToScript::dispatchNow([
             '$querySelector' => 'section main article > h2'
         ]);
         $this->browser->script($script);
-
         $this->browser->screenshot('scroll-to-new-posts');
     }
 }

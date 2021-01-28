@@ -8,7 +8,7 @@ use Laravel\Dusk\Browser;
 
 class AuthorizeInstagramAction extends InstagramAction
 {
-    protected $browser;
+    protected Browser $browser;
 
     /**
      * Create a new job instance.
@@ -28,12 +28,11 @@ class AuthorizeInstagramAction extends InstagramAction
      */
     public function handle()
     {
-        info('Authorize Instagram');
         $sessionId = env('INSTAGRAM_SESSION_ID');
         if (empty($sessionId)){
             throw new Exception('Environment variable INSTAGRAM_SESSION_ID is not set');
         }
-
+        
         $this->browser
             ->visit('https://www.instagram.com/')
             ->plainCookie('sessionid',$sessionId);

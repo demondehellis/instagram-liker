@@ -29,7 +29,6 @@ class OpenFirstPostAction extends InstagramAction
      */
     public function handle()
     {
-        info('Open first post...');
         $this->browser->clickAtPoint(70, 70);
         WaitForPostDialogAction::dispatchNow($this->browser);
         $this->browser->screenshot('open-first-post');

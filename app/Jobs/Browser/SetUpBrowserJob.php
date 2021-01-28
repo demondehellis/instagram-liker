@@ -4,6 +4,7 @@ namespace App\Jobs\Browser;
 
 use App\Jobs\BrowserJob;
 use Exception;
+use Illuminate\Support\Facades\File;
 use Laravel\Dusk\Browser;
 
 class SetUpBrowserJob extends BrowserJob
@@ -15,16 +16,17 @@ class SetUpBrowserJob extends BrowserJob
      */
     public function handle()
     {
-        info('Set up browser...');
-
         Browser::$baseUrl = env('APP_URL');
-
-        Browser::$storeScreenshotsAt = base_path('tests/Browser/screenshots');
-
-        Browser::$storeConsoleLogAt = base_path('tests/Browser/console');
-
-        Browser::$storeSourceAt = base_path('tests/Browser/source');
-
+        
+        $browserStoragePath = storage_path('browser');
+        if (!file_exists($browserStoragePath)) {
+            File::makeDirectory($browserStoragePath);
+        }
+        
+        Browser::$storeScreenshotsAt = $browserStoragePath . '/screenshots';
+        Browser::$storeConsoleLogAt = $browserStoragePath . '/console';
+        Browser::$storeSourceAt = $browserStoragePath . '/source';
+        
         Browser::$userResolver = function () {
             throw new Exception('User resolver has not been set.');
         };

@@ -2,6 +2,6 @@
 
 namespace App\Jobs;
 
-abstract class BrowserJob extends Job
+abstract class BrowserJob extends SyncJob
 {
 }
