@@ -3,6 +3,7 @@
 namespace App\Jobs\Browser;
 
 use App\Jobs\BrowserJob;
+use Laravel\Dusk\Browser;
 use Laravel\Dusk\Concerns\ProvidesBrowser;
 
 class TearDownBrowserJob extends BrowserJob
@@ -25,6 +26,6 @@ class TearDownBrowserJob extends BrowserJob
 
     protected function driver()
     {
-        return GetDriverBrowserJob::dispatchNow();
+        return app(Browser::class)->driver;
     }
 }

@@ -18,11 +18,8 @@ class SetUpBrowserJob extends BrowserJob
     {
         Browser::$baseUrl = env('APP_URL');
         
+        $this->makeBrowserStorage();
         $browserStoragePath = storage_path('browser');
-        if (!file_exists($browserStoragePath)) {
-            File::makeDirectory($browserStoragePath);
-        }
-        
         Browser::$storeScreenshotsAt = $browserStoragePath . '/screenshots';
         Browser::$storeConsoleLogAt = $browserStoragePath . '/console';
         Browser::$storeSourceAt = $browserStoragePath . '/source';
@@ -30,5 +27,21 @@ class SetUpBrowserJob extends BrowserJob
         Browser::$userResolver = function () {
             throw new Exception('User resolver has not been set.');
         };
+    }
+    
+    public function makeBrowserStorage()
+    {
+        $dirs = [
+            'screenshots',
+            'console',
+            'source',
+        ];
+        
+        foreach ($dirs as $dir){
+            $browserStoragePath = storage_path('browser' . DIRECTORY_SEPARATOR . $dir);
+            if (!file_exists($browserStoragePath)) {
+                File::makeDirectory($browserStoragePath);
+            }
+        }
     }
 }

@@ -4,37 +4,22 @@ namespace App\Jobs\Instagram\Actions;
 
 use App\Jobs\Instagram\InstagramAction;
 use App\Jobs\Instagram\Scripts\ScrollToScript;
-use Exception;
 use Laravel\Dusk\Browser;
 
 class ScrollToNewPostsAction extends InstagramAction
 {
-    protected Browser $browser;
-    protected string $tag;
-
-    /**
-     * Create a new job instance.
-     *
-     * @param Browser $browser
-     * @param string $tag
-     */
-    public function __construct(Browser &$browser)
-    {
-        $this->browser = $browser;
-    }
-
     /**
      * Execute the job.
      *
+     * @param Browser $browser
      * @return void
-     * @throws Exception
      */
-    public function handle()
+    public function handle(Browser $browser)
     {
         $script = ScrollToScript::dispatchNow([
             '$querySelector' => 'section main article > h2'
         ]);
-        $this->browser->script($script);
-        $this->browser->screenshot('scroll-to-new-posts');
+        $browser->script($script);
+        $browser->screenshot('scroll-to-new-posts');
     }
 }

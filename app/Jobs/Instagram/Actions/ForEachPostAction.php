@@ -4,12 +4,10 @@ namespace App\Jobs\Instagram\Actions;
 
 use App\Jobs\Instagram\InstagramAction;
 use Closure;
-use Exception;
 use Laravel\Dusk\Browser;
 
 class ForEachPostAction extends InstagramAction
 {
-    protected Browser $browser;
     protected Closure $callback;
     protected int $limit;
     protected int $iteration;
@@ -17,30 +15,28 @@ class ForEachPostAction extends InstagramAction
     /**
      * Create a new job instance.
      *
-     * @param Browser $browser
      * @param Closure $callback
      * @param int $limit
      */
-    public function __construct(Browser &$browser, Closure $callback, int $limit = 0)
+    public function __construct(Closure $callback, int $limit = 0)
     {
-        $this->browser = $browser;
         $this->callback = $callback;
         $this->limit = $limit;
         $this->iteration = 0;
     }
-
+    
     /**
      * Execute the job.
      *
+     * @param Browser $browser
      * @return void
-     * @throws Exception
      */
-    public function handle()
+    public function handle(Browser $browser)
     {
         while (!$this->isLimitReached()) {
         
             try {
-                call_user_func($this->callback, $this->browser);
+                call_user_func($this->callback, $browser);
             } catch (\Exception $exception) {
                 report($exception);
                 continue;
@@ -48,7 +44,7 @@ class ForEachPostAction extends InstagramAction
             
             $this->iteration++;
             if (!$this->isLimitReached()) {
-                OpenNextPostAction::dispatchNow($this->browser);
+                OpenNextPostAction::dispatchNow();
             }
         }
     }
