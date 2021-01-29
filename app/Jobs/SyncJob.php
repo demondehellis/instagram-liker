@@ -13,16 +13,24 @@ class SyncJob
     
     public function before()
     {
-        info('Run ' . get_class($this));
+        if (config('logging.verbosity.before-job')) {
+            info('Run ' . get_class($this));
+        }
     }
     
     public function after()
     {
-        info('Finish ' . get_class($this));
+        if (config('logging.verbosity.after-job')){
+            info('Finish ' . get_class($this));
+        }
     }
     
     public function failed(Throwable $exception)
     {
-        Log::error('Failed ' . get_class($this) . ' with exception: ' . $exception->getMessage());
+        if (config('logging.verbosity.failed-job')){
+            Log::error(
+                'Failed ' . get_class($this) . ' with exception: ' . $exception->getMessage()
+            );
+        }
     }
 }

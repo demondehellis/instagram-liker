@@ -109,4 +109,9 @@ return [
         ],
     ],
 
+    'verbosity' => [
+        'before-job' => env('LOG_VERBOSE_BEFORE_JOB', true),
+        'after-job' => env('LOG_VERBOSE_AFTER_JOB', false),
+        'failed-job' => env('LOG_VERBOSE_FAILED_JOB', true),
+    ],
 ];
