@@ -16,6 +16,8 @@ class ClickLikeButtonScript extends InstagramScript
                     cancelable: true,
                     clientX: 20,
                 });
-                like.dispatchEvent(evt);";
+                if (!!like){
+                    like.dispatchEvent(evt);
+                }";
     }
 }
