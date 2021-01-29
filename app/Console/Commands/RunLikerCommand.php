@@ -12,7 +12,7 @@ class RunLikerCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'run:liker';
+    protected $signature = 'run:liker {--endless-mode}';
 
     /**
      * The console command description.
@@ -39,7 +39,9 @@ class RunLikerCommand extends Command
     public function handle()
     {
         $instagramLikerService = new InstagramLikerService();
-        $instagramLikerService->runLiker();
+        $instagramLikerService->runLiker(
+            (bool) $this->option('endless-mode')
+        );
         return 0;
     }
 }

@@ -3,29 +3,18 @@
 namespace App\Jobs\Instagram\Actions;
 
 use App\Jobs\Instagram\InstagramAction;
-use Exception;
+use Generator;
 
 class GetTagGeneratorAction extends InstagramAction
 {
     /**
      * Execute the job.
      *
-     * @return void
-     * @throws Exception
+     * @return Generator
      */
-    public function handle(): \Generator
+    public function handle(): Generator
     {
-       return $this->getTagGenerator();
-    }
-
-    public function getTags()
-    {
-        return explode(',', $_ENV['INSTAGRAM_TAGS']);
-    }
-    
-    public function getTagGenerator(): \Generator
-    {
-        $tags = $this->getTags();
+        $tags = GetTagsAction::dispatchNow();
         while (true) {
             foreach ($tags as $tag) {
                 yield $tag;
