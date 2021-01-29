@@ -8,6 +8,6 @@ class GetTagsAction extends InstagramAction
 {
     public function handle()
     {
-        return explode(',', $_ENV['INSTAGRAM_TAGS']);
+        return explode(',', env('INSTAGRAM_TAGS',''));
     }
 }
