@@ -7,7 +7,9 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: instagram-liker
-    restart: unless-stopped
+    env_file:
+      - .env
+    restart: "${APP_RESTART:-on-failure}"
     tty: true
     environment:
       SERVICE_NAME: app
