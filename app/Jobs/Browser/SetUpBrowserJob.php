@@ -40,7 +40,7 @@ class SetUpBrowserJob extends BrowserJob
         foreach ($dirs as $dir){
             $browserStoragePath = storage_path('browser' . DIRECTORY_SEPARATOR . $dir);
             if (!file_exists($browserStoragePath)) {
-                File::makeDirectory($browserStoragePath);
+                File::makeDirectory($browserStoragePath, 0755, $recursive = true);
             }
         }
     }
