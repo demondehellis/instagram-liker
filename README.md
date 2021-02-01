@@ -2,6 +2,14 @@
 
 Simple automation app for Instagram daily actions. 
 
+## Install
+
+```
+git clone git@github.com:demondehellis/instagram-liker.git
+cd instagram-liker
+docker-compose build
+```
+
 ## Configure
 
 ```
