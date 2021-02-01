@@ -15,7 +15,7 @@ services:
       SERVICE_NAME: app
       SERVICE_TAGS: dev
     volumes:
-      - ./:/var/www
+      - ./storage:/var/www/storage
     working_dir: /var/www
     depends_on:
       - selenium
