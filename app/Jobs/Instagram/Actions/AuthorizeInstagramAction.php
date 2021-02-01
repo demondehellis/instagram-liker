@@ -21,10 +21,11 @@ class AuthorizeInstagramAction extends InstagramAction
         if (empty($sessionId)){
             throw new Exception('Environment variable INSTAGRAM_SESSION_ID is not set');
         }
-        
-        $browser
-            ->visit('https://www.instagram.com/')
-            ->plainCookie('sessionid',$sessionId);
-        $browser->screenshot('auth');
+    
+        $browser->visit('https://www.instagram.com/');
+        AcceptCookiePolicyAction::dispatchNow();
+    
+        $browser->plainCookie('sessionid',$sessionId);
+        VerifyAuthAction::dispatchNow();
     }
 }
