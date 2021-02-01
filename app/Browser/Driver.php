@@ -17,6 +17,8 @@ class Driver
         $options = (new ChromeOptions)->addArguments([
             '--disable-gpu',
             '--headless',
+            '--no-sandbox',
+            '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36"',
             '--whitelisted-ips=""',
             '--window-size=420,500',
         ]);
